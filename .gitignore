@@ -1,0 +1,18 @@
+# Dist
+dist
+
+# Dependencies
+node_modules
+yarn.lock
+package-lock.json
+
+# Editor files
+.idea
+.vscode
+
+# Miscellaneous
+.DS_Store
+
+# Meta
+
+meta.json
