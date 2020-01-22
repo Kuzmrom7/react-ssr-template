@@ -1,10 +1,6 @@
 import App from "./app";
 import { Main, About, NotFound } from "./app/pages";
-
-const action = {
-  get: (params = "", q = "") =>
-    console.log("action - params = ", params, " - qqqq = ", q)
-};
+import { fetchUsers } from "./app/actions";
 
 export default [
   {
@@ -14,18 +10,18 @@ export default [
         path: "/",
         exact: true,
         component: Main, // Add your route here
-        loadData: () => [action.get()]
+        loadData: () => [fetchUsers()]
       },
       {
-        path: "/about/:id",
-        component: About,
-        loadData: ({
-          params,
-          query
-        }: {
-          params: { id: string };
-          query: string;
-        }) => [action.get(params.id, query)]
+        path: "/about",
+        component: About
+        // loadData: ({
+        //   params,
+        //   query
+        // }: {
+        //   params: { id: string };
+        //   query: string;
+        // }) => [action.get(params.id, query)]
       },
       {
         component: NotFound

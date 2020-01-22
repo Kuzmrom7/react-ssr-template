@@ -1,0 +1,7 @@
+export const ActionConsts = {
+  Home: {
+    USERS_REQUESTING: "USERS_REQUESTING",
+    USERS_SUCCESS: "USERS_SUCCESS",
+    USERS_FAILURE: "USERS_FAILURE"
+  }
+};

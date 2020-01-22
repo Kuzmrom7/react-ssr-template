@@ -1,3 +1,5 @@
+import serialize from "serialize-javascript";
+
 const isDev = process.env.NODE_ENV !== "production";
 
 let buildNumber = 0;
@@ -7,7 +9,7 @@ if (!isDev) {
   buildNumber = meta.buildNumber;
 }
 
-function htmlTemplate(reactDom) {
+function htmlTemplate(reactDom, reduxState) {
   return `
         <!DOCTYPE html>
         <html>
@@ -21,7 +23,7 @@ function htmlTemplate(reactDom) {
         <body>
             <div id="app">${reactDom}</div>
             <script>
-                window.REDUX_DATA = "kek"
+                window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
             </script>
             ${
               isDev

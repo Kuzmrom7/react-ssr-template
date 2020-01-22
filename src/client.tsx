@@ -1,14 +1,24 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom";
 import { renderRoutes } from "react-router-config";
-import routes from "routes";
+import routes from "./routes";
+import configureStore from "./configureStore";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
+
+//@ts-ignore
+const initialState = window.REDUX_DATA;
+const { store, history } = configureStore({ initialState });
 
 const render = (Routes: Array<object>) => {
   const renderMethod = ReactDOM.hydrate;
 
   renderMethod(
-    <Router>{renderRoutes(Routes)}</Router>,
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        {renderRoutes(Routes)}
+      </ConnectedRouter>
+    </Provider>,
     document.getElementById("app")
   );
 };
