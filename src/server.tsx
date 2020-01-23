@@ -6,7 +6,7 @@ import { StaticRouter } from "react-router-dom";
 import htmlTemplate from "./template";
 import { renderRoutes, matchRoutes } from "react-router-config";
 import routes from "./routes";
-import configureStore from "./configureStore";
+import configureStore from "./store";
 import { Provider } from "react-redux";
 
 const app = express();

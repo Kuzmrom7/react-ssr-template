@@ -4,6 +4,7 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 const fs = require("fs");
 
 let buildNumber;
@@ -11,6 +12,8 @@ let buildNumber;
 const plugins = [
   new FriendlyErrorsWebpackPlugin(),
   new MiniCssExtractPlugin({
+    // filename: "[name].[contenthash].css",
+    // chunkFilename: "[name].[contenthash].css"
     filename: "styles.css"
   })
 ];
@@ -51,8 +54,29 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(scss|css|sass)$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        test: /\.(scss|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: [autoprefixer()],
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
       },
       {
         test: /\.(jpe?g|png|ico|gif|svg|eot|ttf|woff|woff2|otf)$/i,

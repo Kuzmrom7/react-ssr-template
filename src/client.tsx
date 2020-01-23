@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { renderRoutes } from "react-router-config";
 import routes from "./routes";
-import configureStore from "./configureStore";
+import configureStore from "./store";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 
-//@ts-ignore
+import "./style.scss";
+
 const initialState = window.REDUX_DATA;
 const { store, history } = configureStore({ initialState });
 

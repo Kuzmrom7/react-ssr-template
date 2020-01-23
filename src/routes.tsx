@@ -1,6 +1,6 @@
 import App from "./app";
-import { Main, About, NotFound } from "./app/pages";
-import { fetchUsers } from "./app/actions";
+import { Main, About, NotFound } from "./pages";
+import { fetchUsers } from "./actions";
 
 export default [
   {

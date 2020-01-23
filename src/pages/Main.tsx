@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import "./main.scss";
 
 interface Props {}
 
 const Main = props => {
   return (
-    <div>
+    <div className="main">
       {props.readyStatus === "success" && (
         <ul>
           {props.list.map((item, key) => (
