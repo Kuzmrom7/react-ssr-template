@@ -3,10 +3,10 @@ import React from "react";
 import path from "path";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
-import htmlTemplate from "./template";
+import htmlTemplate from "./core/template";
 import { renderRoutes, matchRoutes } from "react-router-config";
 import routes from "./routes";
-import configureStore from "./store";
+import configureStore from "./core/store";
 import { Provider } from "react-redux";
 
 const app = express();
