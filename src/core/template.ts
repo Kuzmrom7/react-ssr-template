@@ -1,15 +1,6 @@
 import serialize from "serialize-javascript";
 
-const isDev = process.env.NODE_ENV !== "production";
-
-let buildNumber = 0;
-
-if (!isDev) {
-  const meta = require("../meta.json");
-  buildNumber = meta.buildNumber;
-}
-
-function htmlTemplate(reactDom, reduxState) {
+function htmlTemplate(reactDom, reduxState, extractor) {
   return `
         <!DOCTYPE html>
         <html>
@@ -17,7 +8,11 @@ function htmlTemplate(reactDom, reduxState) {
             <meta charset="utf-8">
         
             <title>React SSR</title>
-            <link rel="stylesheet" type="text/css" href="./styles.css" />
+      
+
+            <!-- Insert bundled styles into <link> tag -->
+            ${extractor.getLinkTags()}
+            ${extractor.getStyleTags()}
         </head>
         
         <body>
@@ -25,11 +20,10 @@ function htmlTemplate(reactDom, reduxState) {
             <script>
                 window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
             </script>
-            ${
-              isDev
-                ? `<script src="./bundle.js"></script>`
-                : `<script src="./bundle.${buildNumber}.js"></script>`
-            }
+
+
+            <!-- Insert bundled scripts into <script> tag -->
+            ${extractor.getScriptTags()}
            
         </body>
         </html>

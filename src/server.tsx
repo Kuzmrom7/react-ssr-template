@@ -8,6 +8,7 @@ import { renderRoutes, matchRoutes } from "react-router-config";
 import routes from "./routes";
 import configureStore from "./core/store";
 import { Provider } from "react-redux";
+import { ChunkExtractor } from "@loadable/server";
 
 const app = express();
 
@@ -40,9 +41,12 @@ app.get("/*", (req, res) => {
     try {
       await loadBranchData();
 
+      const statsFile = path.resolve(process.cwd(), "dist/loadable-stats.json");
+      const extractor = new ChunkExtractor({ statsFile });
+
       const staticContext: any = {};
 
-      const jsx = (
+      const jsx = extractor.collectChunks(
         <Provider store={store}>
           <StaticRouter location={req.path} context={staticContext}>
             {renderRoutes(routes)}
@@ -62,7 +66,7 @@ app.get("/*", (req, res) => {
 
       const reduxState = store.getState();
 
-      res.status(status).send(htmlTemplate(reactDom, reduxState));
+      res.status(status).send(htmlTemplate(reactDom, reduxState, extractor));
     } catch (error) {
       res.status(404).send("Not Found :(");
 

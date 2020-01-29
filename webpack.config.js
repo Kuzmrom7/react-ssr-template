@@ -5,16 +5,19 @@ const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const autoprefixer = require("autoprefixer");
-const fs = require("fs");
+const LoadablePlugin = require("@loadable/webpack-plugin");
 
 let buildNumber;
 
 const plugins = [
   new FriendlyErrorsWebpackPlugin(),
   new MiniCssExtractPlugin({
-    // filename: "[name].[contenthash].css",
-    // chunkFilename: "[name].[contenthash].css"
-    filename: "styles.css"
+    filename: isDev ? "[name].css" : "[name].[contenthash:8].css",
+    chunkFilename: isDev ? "[id].css" : "[id].[contenthash:8].css"
+  }),
+  new LoadablePlugin({
+    writeToDisk: true,
+    filename: "../dist/loadable-stats.json"
   })
 ];
 
@@ -27,14 +30,6 @@ if (!isDev) {
     }),
     new CleanWebpackPlugin()
   );
-
-  buildNumber = Date.now();
-
-  fs.writeFile("meta.json", JSON.stringify({ buildNumber }), error => {
-    if (error) {
-      console.error(error);
-    }
-  });
 }
 
 module.exports = {
@@ -44,7 +39,8 @@ module.exports = {
   entry: { app: path.resolve(__dirname, "src/client.tsx") },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: isDev ? "bundle.js" : `bundle.${buildNumber}.js`
+    filename: isDev ? "[name].js" : "[name].[chunkhash:8].js",
+    chunkFilename: isDev ? "[id].js" : "[id].[chunkhash:8].js"
   },
   module: {
     rules: [

@@ -22,6 +22,7 @@ export default ({ initialState, url }: Argv) => {
   const middlewares = [routerMiddleware(history), thunk];
 
   const composeEnhancers =
+    //@ts-ignore
     (!isServer && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
   const enhancers = composeEnhancers(applyMiddleware(...middlewares));
   const store = createStore(

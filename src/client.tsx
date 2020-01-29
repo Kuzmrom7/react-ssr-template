@@ -5,6 +5,7 @@ import routes from "./routes";
 import configureStore from "./core/store";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
+import { loadableReady } from "@loadable/component";
 
 import "./style.scss";
 
@@ -24,4 +25,4 @@ const render = (Routes: Array<object>) => {
   );
 };
 
-render(routes);
+loadableReady(() => render(routes));
